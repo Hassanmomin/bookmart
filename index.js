@@ -9,7 +9,7 @@ app.use(express.json());
 
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/myDb')
+mongoose.connect('mongodb+srv://hassanmomin284_db_user:ndA4paPKZXdnljyO@cluster0.l1z7yzc.mongodb.net/BookMart?appName=Cluster0')
     .then(() => console.log('mongoDb is connected'))
 
 const userSchema = new mongoose.Schema({
@@ -27,20 +27,6 @@ const userSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model('User', userSchema)
-
-const multer = require('multer');
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./uploads");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-
-const upload = multer({ storage });
-
 
 
 app.post('/add-user', async (req, res) => {
@@ -114,7 +100,7 @@ app.get('/users/:Id', async (req, res) => {
 
 
 
-app.post('/update-profile',upload.single('Image'), async (req, res) => {
+app.post('/update-profile',async (req, res) => {
 
     let { Id, name, username, email, bio } = req.body;
     if(!mongoose.isValidObjectId(Id)){
@@ -164,7 +150,6 @@ app.post('/update-profile',upload.single('Image'), async (req, res) => {
 const PORT = 3000;
 const HOST = '0.0.0.0';  // Important!
 
-app.listen(PORT, HOST, () => {
-    console.log(`Server running on http://${HOST}:${PORT}`);
-    console.log(`Access from phone: http://192.168.1.6:${PORT}`);
+app.listen(PORT, () => {
+    console.log(`Server running `);
 });
