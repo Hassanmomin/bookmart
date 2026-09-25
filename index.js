@@ -113,7 +113,7 @@ app.post('/update-profile',upload.single('Image'),async (req, res) => {
     let updateData = {};
 
 
-    if (name || username || email || bio) {
+    if (name || username || email || bio || req.file) {
         if (req.file) {
             updateData.profileImage = req.file.path;
         }
