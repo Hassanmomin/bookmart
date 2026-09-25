@@ -6,7 +6,10 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
+const multer = require('multer');
+const upload = multer({
+  dest: './uploads',
+});
 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://hassanmomin284_db_user:ndA4paPKZXdnljyO@cluster0.l1z7yzc.mongodb.net/BookMart?appName=Cluster0')
@@ -100,17 +103,13 @@ app.get('/users/:Id', async (req, res) => {
 
 
 
-app.post('/update-profile',async (req, res) => {
+app.post('/update-profile',upload.single('Image'),async (req, res) => {
 
     let { Id, name, username, email, bio } = req.body;
     if(!mongoose.isValidObjectId(Id)){
         return res.status(400).json({message:'Invalid or missing userId'})
     }
     let updateData = {};
-
-   if(req.file){
-    return console.log('receiving file');
-   }
 
 
     if (name || username || email || bio) {
