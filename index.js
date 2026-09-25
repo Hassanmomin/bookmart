@@ -10,6 +10,7 @@ const multer = require('multer');
 const upload = multer({
   dest: './uploads',
 });
+app.use('/uploads', express.static('./uploads'));
 
 const mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://hassanmomin284_db_user:ndA4paPKZXdnljyO@cluster0.l1z7yzc.mongodb.net/BookMart?appName=Cluster0')
@@ -113,6 +114,10 @@ app.post('/update-profile',upload.single('Image'),async (req, res) => {
 
 
     if (name || username || email || bio) {
+        if (req.file) {
+            updateData.profileImage = req.file.path;
+        }
+
         if (name) {
             updateData.name = name;
         }
